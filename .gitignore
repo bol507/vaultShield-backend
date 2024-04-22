@@ -1,0 +1,14 @@
+node_modules
+dist
+#firebase
+serviceAccountKey.json
+
+#environment files
+.env
+.env.local
+
+#lock
+yarn.lock
+
+#logs
+yarn-error.log
