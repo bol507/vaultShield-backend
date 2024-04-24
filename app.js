@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 require('express-async-errors')
 //router
 const authRouter = require('./routes/auth');
@@ -17,8 +17,9 @@ swagger(app);
 
 const middleware = require('./utils/middleware')
 mongoose.set('strictQuery', false)
-logger.info('connecting to', config.MONGODB_URI)
-mongoose.connect(config.MONGODB_URI)
+
+logger.info('connecting to', config.MONGO_URL)
+mongoose.connect(config.MONGO_URL)
     .then(()=>{
         logger.info('connected to MongoDB')
     })
