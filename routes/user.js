@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const userController =  require('../controllers/userController');
 
-const { verifyToken, verifyAndAuthorization } = require('../middlewares/verifyToken');
 
-router.get('/',verifyAndAuthorization,userController.getUser)
-router.delete('/',verifyAndAuthorization,userController.deleteUser)
-router.put('/',verifyAndAuthorization,userController.updateUser)
+router.get('/',userController.getUser)
+router.delete('/',userController.deleteUser)
+router.put('/',userController.updateUser)
 
 module.exports = router
