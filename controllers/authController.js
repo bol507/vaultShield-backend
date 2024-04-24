@@ -1,5 +1,4 @@
 const User = require('../models/User')
-const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 
 const createUser = async (request, response) => {
@@ -12,7 +11,7 @@ const createUser = async (request, response) => {
       const newUser = new User({
         username: user.username,
         email: user.email,
-        passwordHash: CryptoJS.AES.encrypt(user.password, process.env.SECRET).toString()
+        passwordHash: user.password
       });
         
       const result = await newUser.save();
@@ -45,10 +44,8 @@ const loginUser = async (request, response) => {
         return response.status(401).json({error: 'Wrong credentials'});
       }
   
-      const decryptedPassword = CryptoJS.AES.decrypt(user.passwordHash, process.env.SECRET);
-      const decrypted = decryptedPassword.toString(CryptoJS.enc.Utf8);
-  
-      if (decrypted !== request.body.password) {
+      
+      if (user.passwordHash !== request.body.password) {
         return response.status(401).json({error: 'Wrong password'});
       }
   
