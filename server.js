@@ -1,37 +1,7 @@
-//server
-const express = require('express')
-const app = express()
-//configs
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const connectDB = require('./db');
-const dotenv = require('dotenv');
-//router
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user')
-//swagger
-const swagger = require('./swagger');
+const app = require('./app')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
-dotenv.config();
-const port = process.env.PORT
-
-swagger(app);
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(cors({ credentials: true, origin: true }));
-
-app.use('/api/auth/', authRouter);
-app.use('/api/users/',userRouter)
-
-app.use(express.static('build'))
-
-connectDB()
-  .then(() => {
-    app.listen(port, () =>
-      console.log(`Example app listening on port ${port}`)
-    );
-  })
-  .catch((error) => {
-    console.error('Error connecting to database:', error.message);
-  });
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
+})
