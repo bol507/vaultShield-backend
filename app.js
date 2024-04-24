@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 
 app.use('/api/auth/', authRouter);
-app.use('/api/users/',userRouter)
+app.use('/api/user/',middleware.userExtractor,userRouter)
 
 app.use(express.static('build'))
 

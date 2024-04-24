@@ -2,12 +2,12 @@ const User = require('../models/User')
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 
-const createUser = async (req, res) => {
-    const user = req.body;
+const createUser = async (request, response) => {
+    const user = request.body;
     try {
-      const duplicate = await User.find({usernname: user.username});
+      const duplicate = await User.find({username: user.username});
       if(duplicate && duplicate.length > 0){
-        return res.status(400).json({ error: 'User already registered whith this username' });
+        return response.status(400).json({ error: 'User already registered whith this username' });
       }
       const newUser = new User({
         username: user.username,
@@ -16,7 +16,6 @@ const createUser = async (req, res) => {
       });
         
       const result = await newUser.save();
-      console.log(result);
       const token = jwt.sign(
         {
           id: user.id,
@@ -24,18 +23,18 @@ const createUser = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: '21d' }
       );
-      return res.status(201).json({message:'User Registered successfully!', token });
+      return response.status(201).json({message:'User Registered successfully!', token });
 
       
     } catch (error) {
-      return res.status(400).json({error: 'Error creating user' });
+      return response.status(400).json({error: 'Error creating user' });
     }
   };
 
-const loginUser = async (req, res) => {
+const loginUser = async (request, response) => {
     try {
       const user = await User.findOne(
-        { email: req.body.email },
+        { email: request.body.email },
         {
           updatedAt: 0,
           createdAt: 0,
@@ -43,14 +42,14 @@ const loginUser = async (req, res) => {
       ); // exclude updateAt and createAt
   
       if (!user) {
-        return res.status(401).json({error: 'Wrong credentials'});
+        return response.status(401).json({error: 'Wrong credentials'});
       }
   
       const decryptedPassword = CryptoJS.AES.decrypt(user.passwordHash, process.env.SECRET);
       const decrypted = decryptedPassword.toString(CryptoJS.enc.Utf8);
   
-      if (decrypted !== req.body.password) {
-        return res.status(401).json({error: 'Wrong password'});
+      if (decrypted !== request.body.password) {
+        return response.status(401).json({error: 'Wrong password'});
       }
   
       const token = jwt.sign(
@@ -61,14 +60,14 @@ const loginUser = async (req, res) => {
         { expiresIn: '21d' }
       );
   
-      return res.status(200).json({ token });
+      return response.status(200).json({ token });
 
     } catch (error) {
       const message = {
         error: error.message,
       };
   
-      return res.status(400).json(message);
+      return response.status(400).json(message);
     }
 };
 
