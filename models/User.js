@@ -19,6 +19,13 @@ const userSchema = new mongoose.Schema({
         required:true,
         minLength:[3,'Username must be at least 3 character long']
     },
+    keypair: 
+        { 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'KeyPair'
+        
+        }
+    
 },{timestamps:true});
 
 userSchema.plugin(uniqueValidator)
