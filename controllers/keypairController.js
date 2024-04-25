@@ -17,35 +17,31 @@ const getKeyPairByUser = async (request, response) => {
 }
 
 const createKeyPairByUser = async (request, response) => {
-    const user = request.user
-    console.log(user);
-    const { private,public } = request.body
+    const user = request.user;
+    const { private, public } = request.body;
     try {
-        
-        if(!user){
-           return response.stastus(404).json({error: 'User not found'})
-        }
-        if ( !private || !public ) {
-            return response.status(404).json({error: 'private and public are required '})
-        }
-        const keypair = new KeyPair({
-            private,
-            public,
-            user: user.id
-        })
-        const savedKeyPair = await keypair.save()
-        user.keypair = user.KeyPair.concat(savedKeyPair._id)
-        await user.save()
-        
-        return response.status(201).json({
-            message: 'Register keys successfuly'
-        })
-
-
-    }catch(error){
-        response.status(500).json({error: error.message})
+      if (!user) {
+        return response.status(404).json({ error: 'User not found' });
+      }
+      if (!private || !public) {
+        return response.status(400).json({ error: 'private and public are required' });
+      }
+      const keypair = new KeyPair({
+        private,
+        public,
+        user: user._id
+      });
+      const savedKeyPair = await keypair.save();
+      user.keypair = user.keypair.concat(savedKeyPair._id); // Corrección: 'KeyPair' -> 'keypair'
+      await user.save();
+  
+      return response.status(201).json({
+        message: 'Register keys successfully'
+      });
+    } catch (error) {
+      response.status(500).json({ error: error.message });
     }
-}
+  };
 
 
 module.exports = {
