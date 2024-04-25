@@ -9,7 +9,7 @@ const getKeyPairByUser = async (request, response) => {
         if(!keypair){
             return response.status(404).json({error: 'Key pair not found'})
         }else{
-            return response.stastus(200).json(keypair)
+            return response.status(200).json(keypair)
         }
     }catch (error) {
         return response.status(500).json({error: error.message})
