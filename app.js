@@ -11,6 +11,7 @@ require('express-async-errors')
 //router
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user')
+const keypairRouter = require('./routes/keypair')
 //swagger
 const swagger = require('./swagger');
 swagger(app);
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/api/auth/', authRouter);
 app.use('/api/user/',middleware.userExtractor,userRouter)
+app.use('/api/keypair', middleware.userExtractor, keypairRouter)
 
 app.use(express.static('build'))
 
