@@ -7,7 +7,7 @@ const keypairSchema = new mongoose.Schema({
     public: {
         type: String
     },
-    userId: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
