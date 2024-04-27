@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
             ref: 'KeyPair'
         
         }
+    ],
+    register: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Register'
+        }
     ]
     
 },{timestamps:true});
