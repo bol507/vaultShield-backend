@@ -5,6 +5,18 @@ const registerSchema = new mongoose.Schema({
     title: {
         type: String
     },
+    login:{
+        type: String
+    },
+    password:{
+        type: String
+    },
+    website: {
+        type: String
+    },
+    notes: {
+        type: String
+    },
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
