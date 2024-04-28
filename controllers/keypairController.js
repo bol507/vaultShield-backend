@@ -37,7 +37,7 @@ const createKeyPairByUser = async (request, response) => {
         user: user._id
       });
       const savedKeyPair = await keypair.save();
-      user.keypair = user.keypair.concat(savedKeyPair._id); // Corrección: 'KeyPair' -> 'keypair'
+      user.keypair = user.keypair.concat(savedKeyPair._id); 
       await user.save();
   
       return response.status(201).json({
