@@ -46,7 +46,25 @@ const getRegisters = async (request,response) => {
     }
 }
 
+const getRegister = async (request,response) => {
+    const user = request.user
+    const { id } = request.params;
+    try{
+        const register = await Register.findOne({ _id: id, user: user._id });
+
+        if (!register) {
+            return response.status(404).json({ error: 'Register not found' });
+        }
+
+        return response.status(200).json(register);
+
+    }catch(error){
+        return response.status(500).json({error: error.message})
+    }
+}
+
 module.exports = {
     createRegister,
-    getRegisters
+    getRegisters,
+    getRegister
 }
