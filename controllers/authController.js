@@ -17,7 +17,7 @@ const createUser = async (request, response) => {
       await newUser.save();
       const token = jwt.sign(
         {
-          id: user.id,
+          id: newUser._id,
         },
         process.env.JWT_SECRET,
         { expiresIn: '21d' }
@@ -48,10 +48,10 @@ const loginUser = async (request, response) => {
       if (user.passwordHash !== request.body.password) {
         return response.status(401).json({error: 'Wrong password'});
       }
-  
+      
       const token = jwt.sign(
         {
-          id: user.id,
+          id: user._id,
         },
         process.env.JWT_SECRET,
         { expiresIn: '21d' }
